@@ -24,6 +24,21 @@ const checkHasLyricsSection = (sidebarElement) => {
 	return false;
 };
 
+// Returns the index of controls section element.
+// Returns null if controls are not present.
+const getElementAfterControls = (sidebarElement) => {
+	const controlsClassName = 'sidebar__section';
+
+	const children = sidebarElement.children;
+	for (let i = 0; i < children.length; i++) {
+		if (children[i].className === controlsClassName) {
+			return children[i+1];
+		}
+	}
+
+	return null;
+};
+
 (function() {
     'use strict';
 
