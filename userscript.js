@@ -39,24 +39,47 @@ const getElementAfterControls = (sidebarElement) => {
 	return null;
 };
 
-const createLyricsNode = (lyricsText) => {
-	const paragraph = document.createElement("p");
-	const node = document.createTextNode(lyricsText);
-	paragraph.appendChild(node);
+const createDiv = () => document.createElement('div');
 
-	return paragraph;
+const createLyricsNode = (text) => {
+	const lyricsSection = createDiv();
+	lyricsSection.className = 'sidebar__section sidebar__section_lyric';
+
+	const lyricsTitle = createDiv();
+	lyricsTitle.className = 'sidebar__section-title sidebar-track__lyric-title typo-caps deco-typo-secondary';
+	const lyricsTitleText = document.createTextNode('Song lyrics (from Genius)');
+	lyricsTitle.appendChild(lyricsTitleText);
+
+	lyricsSection.appendChild(lyricsTitle);
+
+	const lyricsTrack = createDiv();
+	lyricsTrack.className = 'sidebar-track__lyric';
+	const lyricsText = createDiv();
+	lyricsText.className = 'sidebar-track__lyric-text typo';
+	const lyricsTextNode = document.createTextNode(text);
+	lyricsText.appendChild(lyricsTextNode);
+	lyricsTrack.appendChild(lyricsText);
+
+	lyricsSection.appendChild(lyricsTrack);
+
+	return lyricsSection;
+};
+
+const getSidebarElement = () => {
+	const sidebarTrackQuery = '.sidebar-track';
+
+	const sidebars = document.querySelectorAll(sidebarTrackQuery);
+	return sidebars[sidebars.length - 1];
 };
 
 const insertLyricsIfNeeded = () => {
-	const sidebarTrackQuery = '.sidebar-track';
-
-	const sidebar = document.querySelector(sidebarTrackQuery);
+	const sidebar = getSidebarElement();
 	const hasLyrics = checkHasLyricsSection(sidebar);
 
 	if (hasLyrics) return;
 
 	const elementAfterControls = getElementAfterControls(sidebar);
-	const lyricsNode = createLyricsNode("Lyrics yo!");
+	const lyricsNode = createLyricsNode('lyrics');
 	sidebar.insertBefore(lyricsNode, elementAfterControls);
 };
 
