@@ -39,12 +39,29 @@ const getElementAfterControls = (sidebarElement) => {
 	return null;
 };
 
-(function() {
-    'use strict';
+const createLyricsNode = (lyricsText) => {
+	const paragraph = document.createElement("p");
+	const node = document.createTextNode(lyricsText);
+	paragraph.appendChild(node);
 
+	return paragraph;
+};
+
+const insertLyricsIfNeeded = () => {
 	const sidebarTrackQuery = '.sidebar-track';
 
 	const sidebar = document.querySelector(sidebarTrackQuery);
+	const hasLyrics = checkHasLyricsSection(sidebar);
 
-    // Your code here...
+	if (hasLyrics) return;
+
+	const elementAfterControls = getElementAfterControls(sidebar);
+	const lyricsNode = createLyricsNode("Lyrics yo!");
+	sidebar.insertBefore(lyricsNode, elementAfterControls);
+};
+
+(function() {
+    'use strict';
+
+	insertLyricsIfNeeded();
 })();
