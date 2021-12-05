@@ -74,6 +74,10 @@ const getSidebarElement = () => {
 
 const insertLyricsIfNeeded = () => {
 	const sidebar = getSidebarElement();
+
+	// Sidebar is not currently open.
+	if (!sidebar) return;
+
 	const hasLyrics = checkHasLyricsSection(sidebar);
 
 	if (hasLyrics) return;
