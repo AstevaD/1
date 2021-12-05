@@ -72,6 +72,8 @@ const getSidebarElement = () => {
 	return sidebars[sidebars.length - 1];
 };
 
+const getLyrics = () => {};
+
 const insertLyricsIfNeeded = () => {
 	const sidebar = getSidebarElement();
 
