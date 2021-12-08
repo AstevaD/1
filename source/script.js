@@ -37,7 +37,9 @@ const createLyricsNode = (text) => {
 	const lyricsTitle = createDiv();
 	lyricsTitle.className =
 		"sidebar__section-title sidebar-track__lyric-title typo-caps deco-typo-secondary";
-	const lyricsTitleText = document.createTextNode("Song lyrics (from Genius)");
+	const lyricsTitleText = document.createTextNode(
+		"Song lyrics (from Genius)"
+	);
 	lyricsTitle.appendChild(lyricsTitleText);
 
 	lyricsSection.appendChild(lyricsTitle);
@@ -79,9 +81,18 @@ const insertLyricsIfNeeded = () => {
 	sidebar.insertBefore(lyricsNode, elementAfterControls);
 };
 
-(function () {
+// Returns a callback to close the listener.
+const listenToChildChanges = (element, callback) => {
+	const observer = new MutationObserver((_) => {
+		callback();
+	});
+	observer.observe(element, { subtree: true, childList: true });
+	return observer.disconnect;
+};
+
+(() => {
 	"use strict";
 
-	console.log("I am alive!");
-	insertLyricsIfNeeded();
+	const sidebarPlaceholder = document.querySelector(".sidebar__placeholder");
+	listenToChildChanges(sidebarPlaceholder, insertLyricsIfNeeded);
 })();
