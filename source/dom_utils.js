@@ -73,3 +73,10 @@ export const createLyricsNode = (text) => {
 
 	return lyricsSection;
 };
+
+export const getSongInfo = (sidebarElement) => {
+	const title = sidebarElement.querySelector(".sidebar__title").innerText;
+	const artists = sidebarElement.querySelector(".d-artists").innerText;
+
+	return { title, artists };
+};

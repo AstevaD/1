@@ -4,6 +4,7 @@ import {
 	checkHasLyricsSection,
 	getElementAfterControls,
 	createLyricsNode,
+	getSongInfo,
 } from "./dom_utils";
 
 const insertLyricsIfNeeded = () => {
@@ -15,6 +16,8 @@ const insertLyricsIfNeeded = () => {
 	const hasLyrics = checkHasLyricsSection(sidebar);
 
 	if (hasLyrics) return;
+
+	const songInfo = getSongInfo(sidebar);
 
 	const elementAfterControls = getElementAfterControls(sidebar);
 	const lyricsNode = createLyricsNode("lyrics");
