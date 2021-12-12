@@ -1,8 +1,8 @@
 {
-	"name": "Yandex Music Lyrics",
+	"name": "Yandex Music Genius Lyrics",
 	"version": "0.0.0",
-	"description": "This extension displays lyrics from Google in Yandex Music web player",
-	"homepage_url": "https://github.com/f-person/yandex-music-lyrics",
+	"description": "This extension displays lyrics from Genius in Yandex Music web player",
+	"homepage_url": "https://github.com/f-person/yandex-music-genius-integration",
 	"manifest_version": 2,
 	"minimum_chrome_version": "74",
 	"applications": {
