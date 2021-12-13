@@ -1,2 +1,6 @@
-// eslint-disable-next-line import/no-unassigned-import
-import './options-storage.js';
+import browser from "webextension-polyfill";
+
+browser.browserAction.onClicked.addListener(function () {
+	console.log("testttt");
+	browser.tabs.create({ url: "auth.html" });
+});

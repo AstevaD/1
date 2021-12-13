@@ -9,14 +9,9 @@
 		"test": "run-p lint:* build",
 		"watch": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
 	},
-	"browserslist": [
-		"last 1 Chrome version",
-		"last 1 Firefox version"
-	],
+	"browserslist": ["last 1 Chrome version", "last 1 Firefox version"],
 	"xo": {
-		"envs": [
-			"browser"
-		],
+		"envs": ["browser"],
 		"rules": {
 			"no-unused-vars": [
 				"error",
@@ -30,6 +25,8 @@
 		"extends": "stylelint-config-xo"
 	},
 	"dependencies": {
+		"core-js": "^2.6.12",
+		"jso": "^4.1.1",
 		"webext-options-sync": "^2.0.1",
 		"webextension-polyfill": "^0.8.0"
 	},

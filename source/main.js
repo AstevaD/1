@@ -7,7 +7,7 @@ import {
 	getSongInfo,
 } from "./dom_utils";
 
-const insertLyricsIfNeeded = () => {
+const insertLyricsIfNeeded = async () => {
 	const sidebar = getSidebarElement();
 
 	// Sidebar is not currently open.
