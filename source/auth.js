@@ -1,35 +1,46 @@
-import { JSO, Popup } from "jso";
+import browser from "webextension-polyfill";
 
 const getRedirectURL = () => {
 	return browser.identity.getRedirectURL();
 };
 
-export const authenticateToGenius = async () => {
-	console.log("----\n------\n-------\n------\n-------- authenticateToGenius");
+const extractAccessTokenFromURL = (url) => {
+	const matches = url.match(/access_token=([^&]*)/);
+	return matches[1];
+};
+
+const authenticateToGenius = async () => {
 	const geniusClientID =
 		"BsNmoV3mmRzhAHc-pUcbpS9-VzlUaMfFzOMcbt0mM2bSDtNmKYhGFqEKbxsYH6N8";
+	const scopes = ["me"];
 
-	const client = new JSO({
-		providerID: "genius",
-		client_id: geniusClientID,
-		redirect_uri: getRedirectURL(),
-		authorization: "https://api.genius.com/oauth/authorize",
-		scopes: {
-			request: ["me"],
-		},
-	});
-	console.log("getting token:::::: ");
-	const token = await client.getToken();
-	console.log(token);
+	let url = "https://api.genius.com/oauth/authorize";
+	url += `?response_type=token`;
+	url += `&scope=${encodeURIComponent(scopes.join(" "))}`;
+	url += `&client_id=${geniusClientID}`;
+	url += `&redirect_uri=${encodeURIComponent(getRedirectURL())}`;
+	url += `&state=button-pressed`;
 
-	return token;
+	try {
+		const callbackUrl = await browser.identity.launchWebAuthFlow({
+			url: url,
+			interactive: true,
+		});
+		return extractAccessTokenFromURL(callbackUrl);
+	} catch (e) {
+		console.log(`Error when authenticating: ${e}`);
+		return null;
+	}
+};
+
+const saveTokenToStorage = async (accessToken) => {
+	await browser.storage.local.set({ accessToken });
 };
 
 window.onload = () => {
 	document.querySelector("button").addEventListener("click", async () => {
-		authenticateToGenius();
-		//chrome.identity.getAuthToken({ interactive: true }, function (token) {
-		//console.log(token);
-		//});
+		const token = await authenticateToGenius();
+		if (token) await saveTokenToStorage(token);
+		console.log(browser.storage.local.get("token"));
 	});
 };
