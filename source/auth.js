@@ -1,4 +1,5 @@
 import browser from "webextension-polyfill";
+import { saveTokenToStorage } from "./local_storage_utils";
 
 const getRedirectURL = () => {
 	return browser.identity.getRedirectURL();
@@ -28,19 +29,14 @@ const authenticateToGenius = async () => {
 		});
 		return extractAccessTokenFromURL(callbackUrl);
 	} catch (e) {
-		console.log(`Error when authenticating: ${e}`);
+		console.error(`Error when authenticating: ${e}`);
 		return null;
 	}
-};
-
-const saveTokenToStorage = async (accessToken) => {
-	await browser.storage.local.set({ accessToken });
 };
 
 window.onload = () => {
 	document.querySelector("button").addEventListener("click", async () => {
 		const token = await authenticateToGenius();
 		if (token) await saveTokenToStorage(token);
-		console.log(browser.storage.local.get("token"));
 	});
 };
